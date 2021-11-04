@@ -6,7 +6,6 @@ part 'team_response.g.dart';
 
 @freezed
 abstract class TeamResponse implements _$TeamResponse {
-  // :TODO まだ使ってないけど、後で絶対使うので残しとく
   const TeamResponse._();
   const factory TeamResponse({
     @Default([]) List<Team> teams,

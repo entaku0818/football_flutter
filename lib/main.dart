@@ -1,53 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:footballflutter/model/team.dart';
-import 'package:footballflutter/repositories/teams_repository.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-
-
-
-final teamsProvider = FutureProvider<List<Team>>((ref) {
-  final _teamsRepository = TeamsRepository();
-  return _teamsRepository.feachTeams();
-
-});
+import 'package:footballflutter/view/HomeScreen.dart';
+import 'package:footballflutter/viewModel/team_view_model.dart';
+import 'package:provider/provider.dart';
 
 
 
 void main() {
   runApp(
-    ProviderScope(
-      child: MyApp(),
-    ),
+      MyApp(),
+
   );
 }
 
 
 
-class MyApp extends HookWidget {
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var provider = useProvider(teamsProvider);
+       return MultiProvider(
+           child: MaterialApp(
+    debugShowCheckedModeBanner: false,
+    title: 'Hello World',
+    theme: ThemeData(
+    primarySwatch: Colors.indigo,
+    ),
+    home: HomeScreen(),
+             routes: <String, WidgetBuilder> {
+               '/home': (BuildContext context) => new HomeScreen(),
 
-    print(provider);
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(title: Text('Example')),
-        body: Center(
-          child: provider.when(
-              data: (data) => ListView.builder(
-                itemCount: data.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text('${data[index].name}'),
-                  );
-                },
-              ),
-              loading: () => CircularProgressIndicator(),
-              error: (error, stack) => Text('Error!')),
-        )
-        ),
+             },
+    ),
+
+            providers: [
+               ChangeNotifierProvider(
+                 create: (context) => TeamsModel(),
+               )
+             ],
+
     );
   }
 }

@@ -14,13 +14,13 @@ class TeamsRepository  {
 
 
 
-  Future<List<Team>> feachTeams() async {
+  Future<Result<List<Team>>> feachTeams() async {
     try {
       return await _client.feachTeams().then((response) {
-        return response.teams;
+        return Result.success(response.teams);
       });
     } catch (error) {
-      return error;
+      return Result.failure(error);
     }
   }
 

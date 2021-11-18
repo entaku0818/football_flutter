@@ -1,26 +1,25 @@
 
 import 'package:flutter/material.dart';
-import 'package:footballflutter/model/team.dart';
-import 'package:footballflutter/repositories/teams_repository.dart';
+import 'package:footballflutter/viewModel/team_view_model.dart';
+import 'package:provider/provider.dart';
 
-class HomeScreen extends StatefulWidget {
-  HomeScreen({Key key}) : super(key: key);
+import 'TeamModel.dart';
+class ChangeNotifier extends StatefulWidget {
+  ChangeNotifier({Key key}) : super(key: key);
 
-  _HomeScreenState createState() => _HomeScreenState();
+  _ChangeNotifier createState() => _ChangeNotifier();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  List<Team> _teams = <Team>[];
-  var isLoading = true;
+class _ChangeNotifier extends State<ChangeNotifier> {
 
   void initState() {
     super.initState();
-    fetch();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return MultiProvider(
+        child: Scaffold(
         appBar: AppBar(
           title: const Text('チーム一覧'),
         ),
@@ -48,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ListTile(
                 title: Text('Honolulu'),
                 onTap: () {
-                  Navigator.pushReplacementNamed(context, '/home');
+                  Navigator.pop(context);
                 },
               ),
               ListTile(
@@ -72,35 +71,29 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
         ),
-         body: ListView.builder(
-           itemBuilder: (BuildContext context, int index) {
-             return Card(
-               child: ListTile(
-                 title: Text(_teams[index].name),
-               ),
-             );
-           },
-           itemCount: _teams.length,
-         ),
+         body:  Consumer<TeamsModel>(
+                       builder: (BuildContext context, TeamsModel value, Widget child) {
+                    return ListView.builder(
+                      itemBuilder: (BuildContext context, int index) {
+                        return Card(
+                          child: ListTile(
+                            title: Text(value.teams[index].name),
+                          ),
+                        );
+                      },
+                      itemCount: value.teams.length,
+                    );
+                  }
+                    )
+
+          ,
+
+    ),     providers: [
+                   ChangeNotifierProvider(
+                    create: (context) => teamModel(),
+            )
+           ],
     );
   }
-
-  Future<List<Team>> fetch() async{
-    final _teamsRepository = TeamsRepository();
-
-    final result = await _teamsRepository.feachTeams();
-
-    result.when(
-      success: (teams) {
-        setState(() {
-          _teams = teams;
-
-        });
-      },
-      failure: (error) {
-        isLoading = false;
-
-      },
-    );
-  }
+  
 }

@@ -46,9 +46,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
     result.when(
       success: (teams) {
-        setState(() {
-          _teams = teams;
-        });
+        if (mounted) {
+          setState(() {
+            _teams = teams;
+          });
+        }
       },
       failure: (error) {
         isLoading = false;

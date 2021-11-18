@@ -25,21 +25,21 @@ class _HeaderState extends State<Header> {
             ),
           ),
           ListTile(
-            title: Text('Los Angeles'),
+            title: Text('statefulWidget'),
             onTap: () {
               Navigator.pushReplacementNamed(context, '/home');
             },
           ),
           ListTile(
-            title: Text('Honolulu'),
+            title: Text('changeNotifier'),
             onTap: () {
-              Navigator.pushReplacementNamed(context, '/home');
+              Navigator.pushReplacementNamed(context, '/changeNotifier');
             },
           ),
           ListTile(
-            title: Text('Dallas'),
+            title: Text('scopedModel'),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.pushReplacementNamed(context, '/scopedModel');
             },
           ),
           ListTile(

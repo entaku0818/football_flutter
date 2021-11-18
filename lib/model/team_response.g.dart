@@ -17,6 +17,4 @@ _$_TeamResponse _$_$_TeamResponseFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$_$_TeamResponseToJson(_$_TeamResponse instance) =>
-    <String, dynamic>{
-      'teams': instance.teams,
-    };
+    <String, dynamic>{'teams': instance.teams};

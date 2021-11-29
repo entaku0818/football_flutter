@@ -43,9 +43,9 @@ class _HeaderState extends State<Header> {
             },
           ),
           ListTile(
-            title: Text('Seattle'),
+            title: Text('RiverpodHome'),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.pushReplacementNamed(context, '/RiverpodHome');
             },
           ),
           ListTile(
